@@ -1,144 +1,199 @@
-# CELPIP Speaking Coach
+# CELPIP Speaking Coach - Mobile App
 
-An AI-powered mobile app that helps users practice CELPIP Speaking with automated feedback and scoring.
+A React Native mobile app that helps users practice CELPIP Speaking with AI-powered feedback.
 
 ## Features
 
-- **8 CELPIP Speaking Tasks** with official timing
-- **AI-Powered Feedback** with CELPIP rubric scoring
-- **Audio Recording** with waveform visualization
-- **Progress Tracking** and session history
-- **Credit System** with in-app purchases
-- **Cross-Platform** iOS and Android support
+### Authentication System
+- **Multiple Sign-in Methods**: Apple, Google, Email/Password, and Magic Link
+- **Automatic Free Credit**: New users receive 1 free credit upon first sign-in
+- **Profile Management**: Users can update their display name and view account information
+- **Account Deletion**: Complete account deletion with data cleanup
+- **Auth Guards**: Protected routes that redirect to authentication when needed
 
-## Tech Stack
+### User Interface
+- **Tamagui Design System**: Modern, consistent UI components with cross-platform compatibility
+- **Responsive Design**: Built-in responsive props and media queries
+- **Theme Support**: Light/dark mode support with customizable themes
+- **Performance Optimized**: Compile-time optimizations and tree flattening
+- **Type Safety**: Fully typed components and props
+- **Loading States**: Proper loading indicators and error handling
+- **Form Validation**: Client-side validation for all input forms
 
-- **Frontend**: React Native with Expo
-- **Backend**: Supabase (PostgreSQL, Auth, Storage)
-- **AI**: OpenAI Whisper (ASR) + GPT-4 (Feedback)
-- **Payments**: RevenueCat
-- **State Management**: Zustand
-- **Navigation**: Expo Router
-
-## Getting Started
+## Setup
 
 ### Prerequisites
-
 - Node.js 18+
-- Yarn 1.22+
 - Expo CLI
-- Supabase account
+- iOS Simulator (for iOS development)
+- Android Studio (for Android development)
 
 ### Installation
 
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/celpip-coach.git
-cd celpip-coach
-```
-
-2. Install dependencies:
+1. Install dependencies:
 ```bash
 yarn install
 ```
 
-3. Set up environment variables:
+2. Configure environment variables:
 ```bash
-cd apps/mobile
 cp env.example .env
 # Edit .env with your Supabase credentials
 ```
 
-4. Set up Supabase:
-```bash
-# Install Supabase CLI
-npm install -g supabase
-
-# Initialize Supabase
-supabase init
-
-# Start local Supabase (optional)
-supabase start
-
-# Apply migrations
-supabase db push
-```
-
-5. Start the development server:
+3. Start the development server:
 ```bash
 yarn dev
+```
+
+### Environment Variables
+
+Create a `.env` file with the following variables:
+
+```env
+EXPO_PUBLIC_SUPABASE_URL=your_supabase_project_url
+EXPO_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
 ## Project Structure
 
 ```
-celpip-coach/
-├── apps/
-│   └── mobile/                 # React Native app
-│       ├── app/               # Expo Router pages
-│       ├── components/        # Reusable UI components
-│       ├── hooks/            # Custom React hooks
-│       ├── lib/              # Utilities and configurations
-│       ├── stores/           # Zustand stores
-│       ├── types/            # TypeScript type definitions
-│       └── constants/        # App constants
-├── packages/
-│   ├── ui/                   # Shared UI components
-│   ├── database/             # Database types and utilities
-│   └── api/                  # API utilities and types
-├── supabase/
-│   ├── migrations/           # Database migrations
-│   ├── functions/            # Edge Functions
-│   └── seed.sql             # Initial data
-└── docs/                    # Documentation
+apps/mobile/
+├── app/                    # Expo Router pages
+│   ├── _layout.tsx        # Root layout with providers
+│   ├── index.tsx          # Home screen (protected)
+│   ├── auth.tsx           # Authentication screen
+│   ├── practice.tsx       # Practice screen (protected)
+│   ├── history.tsx        # History screen (protected)
+│   └── settings.tsx       # Settings screen (protected)
+├── components/
+│   └── auth/              # Authentication components
+│       ├── AuthGuard.tsx  # Route protection component
+│       ├── SignInForm.tsx # Sign in form (Tamagui)
+│       ├── SignUpForm.tsx # Sign up form (Tamagui)
+│       └── MagicLinkForm.tsx # Magic link form (Tamagui)
+├── stores/                # Zustand state management
+│   ├── auth.ts           # Authentication store
+│   └── credits.ts        # Credits store
+├── lib/
+│   └── supabase.ts       # Supabase client configuration
+├── types/
+│   └── index.ts          # TypeScript type definitions
+├── tamagui.config.ts     # Tamagui configuration
+└── babel.config.js       # Babel configuration with Tamagui plugin
 ```
+
+## Authentication Flow
+
+### Sign Up Process
+1. User enters email, password, and optional display name
+2. Account is created in Supabase Auth
+3. Profile record is created in the database
+4. User receives email confirmation (if email confirmation is enabled)
+5. Upon first sign-in, user automatically receives 1 free credit
+
+### Sign In Process
+1. User can sign in with Apple, Google, email/password, or magic link
+2. Auth state is managed by Zustand store
+3. Profile and credits are automatically loaded
+4. User is redirected to home screen
+
+### Protected Routes
+- All main app screens (home, practice, history, settings) are protected
+- Unauthenticated users are automatically redirected to auth screen
+- AuthGuard component handles route protection
+
+## UI Framework - Tamagui
+
+This app uses [Tamagui](https://tamagui.dev/) for the UI layer, providing:
+
+### Benefits
+- **Cross-platform Components**: Works seamlessly on iOS, Android, and Web
+- **Type Safety**: Fully typed props and themes
+- **Performance**: Compile-time optimizations and tree flattening
+- **Responsive Design**: Built-in responsive props and media queries
+- **Theming**: Easy theme management and dark mode support
+- **Consistency**: Pre-built design system with consistent styling
+
+### Key Components Used
+- `YStack` / `XStack` - Layout components
+- `Text` - Typography component
+- `Button` - Interactive button component
+- `Input` - Form input component
+- `Card` - Container component
+- `Spinner` - Loading indicator
+
+## State Management
+
+### Auth Store (`stores/auth.ts`)
+- User authentication state
+- Profile management
+- Sign in/out methods
+- Account deletion
+- Free credit granting
+
+### Credits Store (`stores/credits.ts`)
+- Credit balance tracking
+- Credit consumption
+- Balance refresh
+
+## Database Integration
+
+The app integrates with Supabase for:
+- User authentication
+- Profile management
+- Credit tracking
+- Data persistence
+
+### Required Database Tables
+- `profiles` - User profile information
+- `credits` - Credit balance tracking
+- `sessions` - Practice sessions
+- `tasks` - Individual practice tasks
+- `feedback` - AI-generated feedback
 
 ## Development
 
-### Available Scripts
+### Running the App
+```bash
+# Start development server
+yarn dev
 
-- `yarn dev` - Start development server
-- `yarn build` - Build for production
-- `yarn ios` - Run on iOS simulator
-- `yarn android` - Run on Android emulator
-- `yarn web` - Run on web browser
-- `yarn lint` - Run ESLint
-- `yarn type-check` - Run TypeScript type checking
+# Run on iOS simulator
+yarn ios
 
-### Database Schema
+# Run on Android emulator
+yarn android
+```
 
-The app uses Supabase with the following main tables:
+### Building for Production
+```bash
+# Build for iOS
+expo build:ios
 
-- `profiles` - User profiles
-- `credits` - Credit management
-- `sessions` - Practice sessions
-- `tasks` - Individual tasks within sessions
-- `feedback` - AI-generated feedback
-- `prompts` - Task prompts bank
+# Build for Android
+expo build:android
+```
 
-### CELPIP Task Types
+## Testing
 
-1. **Advice** (30s prep, 90s speak)
-2. **Personal Experience** (30s prep, 90s speak)
-3. **Describe a Scene** (30s prep, 60s speak)
-4. **Predictions** (30s prep, 60s speak)
-5. **Compare and Persuade** (60s prep, 60s speak)
-6. **Difficult Situation** (60s prep, 60s speak)
-7. **Express Opinions** (30s prep, 90s speak)
-8. **Unusual Situation** (30s prep, 60s speak)
+The authentication system includes comprehensive error handling and user feedback:
+- Form validation
+- Network error handling
+- Loading states
+- Success/error alerts
 
-## Contributing
+## Security
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
+- All API calls use Supabase's built-in security
+- Row Level Security (RLS) policies protect user data
+- Sensitive operations require authentication
+- Account deletion removes all associated data
 
-## License
+## Future Enhancements
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Support
-
-For support, email support@celpipcoach.com or create an issue in this repository.
+- Biometric authentication
+- Social login providers
+- Advanced profile customization
+- Offline authentication caching
+- Multi-factor authentication

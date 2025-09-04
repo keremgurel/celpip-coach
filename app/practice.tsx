@@ -1,30 +1,27 @@
-import { View, Text, StyleSheet } from 'react-native';
+import React from 'react';
+import { YStack, Text } from 'tamagui';
+import { AuthGuard } from '../components/auth/AuthGuard';
 
-export default function PracticeScreen() {
+function PracticeContent() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Practice Mode</Text>
-      <Text style={styles.subtitle}>Choose your practice session</Text>
-    </View>
+    <YStack flex={1} justifyContent="center" alignItems="center" padding="$4" backgroundColor="$background">
+      <Text fontSize="$6" fontWeight="bold" color="$color12" marginBottom="$2">
+        Practice Mode
+      </Text>
+      <Text fontSize="$4" color="$color10" marginBottom="$4" textAlign="center">
+        Choose your practice session
+      </Text>
+      <Text fontSize="$5" color="$blue10" fontWeight="600">
+        Coming Soon!
+      </Text>
+    </YStack>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#1a1a1a',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#666',
-  },
-});
+export default function PracticeScreen() {
+  return (
+    <AuthGuard>
+      <PracticeContent />
+    </AuthGuard>
+  );
+}

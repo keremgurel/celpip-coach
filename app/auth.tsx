@@ -1,30 +1,45 @@
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { YStack } from 'tamagui';
+import { SignInForm } from '../components/auth/SignInForm';
+import { SignUpForm } from '../components/auth/SignUpForm';
+import { MagicLinkForm } from '../components/auth/MagicLinkForm';
+
+type AuthMode = 'signin' | 'signup' | 'magiclink';
 
 export default function AuthScreen() {
+  const [mode, setMode] = useState<AuthMode>('signin');
+
+  const renderForm = () => {
+    switch (mode) {
+      case 'signin':
+        return (
+          <SignInForm
+            onSwitchToSignUp={() => setMode('signup')}
+            onSwitchToMagicLink={() => setMode('magiclink')}
+          />
+        );
+      case 'signup':
+        return (
+          <SignUpForm
+            onSwitchToSignIn={() => setMode('signin')}
+            onSwitchToMagicLink={() => setMode('magiclink')}
+          />
+        );
+      case 'magiclink':
+        return (
+          <MagicLinkForm
+            onSwitchToSignIn={() => setMode('signin')}
+            onSwitchToSignUp={() => setMode('signup')}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Authentication</Text>
-      <Text style={styles.subtitle}>Sign in to start practicing</Text>
-    </View>
+    <YStack flex={1} backgroundColor="$background">
+      {renderForm()}
+    </YStack>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#1a1a1a',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#666',
-  },
-});

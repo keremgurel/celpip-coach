@@ -1,30 +1,27 @@
-import { View, Text, StyleSheet } from 'react-native';
+import React from 'react';
+import { YStack, Text } from 'tamagui';
+import { AuthGuard } from '../components/auth/AuthGuard';
 
-export default function HistoryScreen() {
+function HistoryContent() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Practice History</Text>
-      <Text style={styles.subtitle}>View your past sessions and progress</Text>
-    </View>
+    <YStack flex={1} justifyContent="center" alignItems="center" padding="$4" backgroundColor="$background">
+      <Text fontSize="$6" fontWeight="bold" color="$color12" marginBottom="$2">
+        Practice History
+      </Text>
+      <Text fontSize="$4" color="$color10" marginBottom="$4" textAlign="center">
+        View your past sessions and progress
+      </Text>
+      <Text fontSize="$5" color="$blue10" fontWeight="600">
+        Coming Soon!
+      </Text>
+    </YStack>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#1a1a1a',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#666',
-  },
-});
+export default function HistoryScreen() {
+  return (
+    <AuthGuard>
+      <HistoryContent />
+    </AuthGuard>
+  );
+}

@@ -79,9 +79,17 @@ export interface Prompt {
 // App state types
 export interface AuthState {
   user: any | null;
+  profile: Profile | null;
   isLoading: boolean;
-  signIn: (provider: 'apple' | 'google' | 'email') => Promise<void>;
+  signIn: (provider: 'apple' | 'google' | 'email', email?: string, password?: string) => Promise<void>;
+  signUp: (email: string, password: string, displayName?: string) => Promise<any>;
+  signInWithMagicLink: (email: string) => Promise<void>;
   signOut: () => Promise<void>;
+  deleteAccount: () => Promise<void>;
+  updateProfile: (updates: Partial<Profile>) => Promise<void>;
+  refreshProfile: () => Promise<void>;
+  checkAndGrantFreeCredit: () => Promise<void>;
+  initialize: () => Promise<void>;
 }
 
 export interface CreditsState {

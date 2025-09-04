@@ -1,0 +1,44 @@
+{
+	"expo": {
+		"name": "CELPIP Speaking Coach",
+		"slug": "celpip-speaking-coach",
+		"version": "1.0.0",
+		"orientation": "portrait",
+		"icon": "./apps/mobile/assets/icon.png",
+		"userInterfaceStyle": "light",
+		"newArchEnabled": true,
+		"scheme": "celpip-coach",
+		"splash": {
+			"image": "./apps/mobile/assets/splash-icon.png",
+			"resizeMode": "contain",
+			"backgroundColor": "#ffffff"
+		},
+		"ios": {
+			"supportsTablet": true,
+			"bundleIdentifier": "com.celpipcoach.mobile"
+		},
+		"android": {
+			"adaptiveIcon": {
+				"foregroundImage": "./apps/mobile/assets/adaptive-icon.png",
+				"backgroundColor": "#ffffff"
+			},
+			"edgeToEdgeEnabled": true,
+			"package": "com.celpipcoach.mobile"
+		},
+		"web": {
+			"favicon": "./apps/mobile/assets/favicon.png"
+		},
+		"plugins": [
+			"expo-router",
+			[
+				"expo-av",
+				{
+					"microphonePermission": "Allow CELPIP Speaking Coach to access your microphone for recording practice sessions."
+				}
+			]
+		],
+		"experiments": {
+			"typedRoutes": true
+		}
+	}
+}
